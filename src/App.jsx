@@ -3,7 +3,6 @@ import { Chessboard } from './components/Chessboard/Chessboard'
 import './App.scss'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className='app'>
@@ -12,4 +11,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
