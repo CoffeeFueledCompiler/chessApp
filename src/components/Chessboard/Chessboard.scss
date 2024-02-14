@@ -1,0 +1,18 @@
+body{
+    margin: 0;
+    padding: 0;
+
+    .Chessboard{
+        display: grid;
+        grid-template-columns: repeat(8, 10vh);
+        grid-template-rows: repeat(8, 10vh);
+        width: 80vh;
+        height: 80vh;
+        background-color: olivedrab;
+        
+    }
+}
+
+
+
+// #ebecd0

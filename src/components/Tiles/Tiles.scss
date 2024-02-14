@@ -1,0 +1,33 @@
+body{
+
+    margin: 0;
+    padding: 0;
+
+    .tiles{
+        width: 10vh;
+        height: 10vh;
+        display: grid;
+        place-content: center;
+
+        .chess-piece{
+            
+            width: 8vh;
+            height: 8vh;
+            &:hover{
+                cursor: grab;
+            }
+            &:active{
+                cursor: grabbing;
+            }
+        }
+
+    }
+    
+    .black-tiles{
+        background-color: olivedrab;
+    }
+    .white-tiles{
+        background-color: #ebecd0;
+    }                   
+
+}
