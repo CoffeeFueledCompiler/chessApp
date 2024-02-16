@@ -4,15 +4,16 @@ body{
     padding: 0;
 
     .tiles{
-        width: 10vh;
-        height: 10vh;
+        width: 70px;
+        height: 70px;
         display: grid;
         place-content: center;
 
         .chess-piece{
             
-            width: 8vh;
-            height: 8vh;
+            width: 60px;
+            height: 60px;
+            background-repeat: no-repeat;
             &:hover{
                 cursor: grab;
             }
