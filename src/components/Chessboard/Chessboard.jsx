@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import Tiles from "../Tiles/Tiles";
 import './Chessboard.scss'
+import Refree from "../../refree/refree";
 
 
 //Axis for the chessboard
@@ -10,29 +11,43 @@ const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
 //List to render in the chess-pieces
 const pieces = []
 const initialBoardState = []
+const PieceType = {
+    PAWN: 0,
+    BISHOP: 1,
+    KNIGHT: 2,
+    ROOK: 3,
+    QUEEN: 4,
+    KING: 5,
+}
+
+const TeamType = {
+    OPPONENT: 0,
+    OUR: 1
+}
 // const chessboardRef = useRef(null);
 let activePiece = null;
 
 //Rendering powerful pieces
 for (let p = 0; p < 2; p++) {
-    const type = p === 0 ? "b" : "w";
-    const y = p === 0 ? 7 : 0;
-    initialBoardState.push({ image: `src/assets/images/rook_${type}.png`, x: 0, y })
-    initialBoardState.push({ image: `src/assets/images/rook_${type}.png`, x: 7, y })
-    initialBoardState.push({ image: `src/assets/images/knight_${type}.png`, x: 1, y })
-    initialBoardState.push({ image: `src/assets/images/knight_${type}.png`, x: 6, y })
-    initialBoardState.push({ image: `src/assets/images/bishop_${type}.png`, x: 2, y })
-    initialBoardState.push({ image: `src/assets/images/bishop_${type}.png`, x: 5, y })
-    initialBoardState.push({ image: `src/assets/images/queen_${type}.png`, x: 3, y })
-    initialBoardState.push({ image: `src/assets/images/king_${type}.png`, x: 4, y })
+    const teamType = (p===0) ? TeamType.OPPONENT : TeamType.OUR 
+    const type = (teamType === TeamType.OPPONENT) ? "b" : "w";
+    const y = (teamType === TeamType.OPPONENT) ? 7 : 0;
+    initialBoardState.push({ image: `src/assets/images/rook_${type}.png`, x: 0, y, type: PieceType.ROOK, team: TeamType })
+    initialBoardState.push({ image: `src/assets/images/rook_${type}.png`, x: 7, y, type: PieceType.ROOK, team: TeamType })
+    initialBoardState.push({ image: `src/assets/images/knight_${type}.png`, x: 1, y, type: PieceType.KNIGHT, team: TeamType })
+    initialBoardState.push({ image: `src/assets/images/knight_${type}.png`, x: 6, y, type: PieceType.KNIGHT, team: TeamType })
+    initialBoardState.push({ image: `src/assets/images/bishop_${type}.png`, x: 2, y, type: PieceType.BISHOP, team: TeamType })
+    initialBoardState.push({ image: `src/assets/images/bishop_${type}.png`, x: 5, y, type: PieceType.BISHOP, team: TeamType })
+    initialBoardState.push({ image: `src/assets/images/queen_${type}.png`, x: 3, y, type: PieceType.KING, team: TeamType })
+    initialBoardState.push({ image: `src/assets/images/king_${type}.png`, x: 4, y, type: PieceType.KING, team: TeamType })
 }
 
 //Rendering pawns
 for (let i = 0; i < 8; i++) {
-    initialBoardState.push({ image: "src/assets/images/pawn_b.png", x: i, y: 6 })
+    initialBoardState.push({ image: "src/assets/images/pawn_b.png", x: i, y: 6, type: PieceType.PAWN, team: TeamType.OPPONENT })
 }
 for (let i = 0; i < 8; i++) {
-    initialBoardState.push({ image: "src/assets/images/pawn_w.png", x: i, y: 1 })
+    initialBoardState.push({ image: "src/assets/images/pawn_w.png", x: i, y: 1, type: PieceType.PAWN, team: TeamType.OUR })
 }
 
 
@@ -46,13 +61,14 @@ export function Chessboard() {
     const [gridY, setGridY] = useState(0);
     const [pieces, setPieces] = useState(initialBoardState)
     const chessboardRef = useRef(null);
+    const refree = new Refree()
 
     function grabPieces(e) {
         const element = e.target;
         const chessboard = chessboardRef.current
 
         if (element.classList.contains("chess-piece") && chessboard) {
-            console.log(e)
+            // console.log(e)
 
             const gridX = Math.floor((e.clientX - chessboard.offsetLeft) / 70);
             const gridY = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 560) / 70));
@@ -116,11 +132,12 @@ export function Chessboard() {
             const x = Math.floor((e.clientX - chessboard.offsetLeft) / 70)
             const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 560) / 70))
 
-            console.log(x, y)
+            // console.log(x, y)
 
             setPieces((value) => {
                 const pieces = value.map((p) => {
                     if (p.x === gridX && p.y === gridY) {
+                        refree.isValidMove(gridX, gridY, x, y, p.type, p.team)
                         p.x = x;
                         p.y = y;
                     }
