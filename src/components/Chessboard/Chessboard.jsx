@@ -173,3 +173,4 @@ export function Chessboard() {
         </div>
     );
 }
+export { PieceType , TeamType };
