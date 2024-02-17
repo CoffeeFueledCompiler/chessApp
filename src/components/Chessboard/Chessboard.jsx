@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Tiles from "../Tiles/Tiles";
 import './Chessboard.scss'
 import Refree from "../../refree/refree";
@@ -9,7 +9,7 @@ const horizontalAxis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
 //List to render in the chess-pieces
-const pieces = []
+// const pieces = []
 const initialBoardState = []
 const PieceType = {
     PAWN: 0,
@@ -25,11 +25,11 @@ const TeamType = {
     OUR: 1
 }
 // const chessboardRef = useRef(null);
-let activePiece = null;
+// let activePiece = null;
 
 //Rendering powerful pieces
 for (let p = 0; p < 2; p++) {
-    const teamType = (p===0) ? TeamType.OPPONENT : TeamType.OUR 
+    const teamType = (p === 0) ? TeamType.OPPONENT : TeamType.OUR
     const type = (teamType === TeamType.OPPONENT) ? "b" : "w";
     const y = (teamType === TeamType.OPPONENT) ? 7 : 0;
     initialBoardState.push({ image: `src/assets/images/rook_${type}.png`, x: 0, y, type: PieceType.ROOK, team: TeamType })
@@ -59,9 +59,9 @@ export function Chessboard() {
     const [activePiece, setActivePiece] = useState(null)
     const [gridX, setGridX] = useState(0);
     const [gridY, setGridY] = useState(0);
-    const [pieces, setPieces] = useState(initialBoardState)
+    const [pieces, setPieces] = useState(initialBoardState);
     const chessboardRef = useRef(null);
-    const refree = new Refree()
+    const refree = new Refree();
 
     function grabPieces(e) {
         const element = e.target;
@@ -137,9 +137,16 @@ export function Chessboard() {
             setPieces((value) => {
                 const pieces = value.map((p) => {
                     if (p.x === gridX && p.y === gridY) {
-                        refree.isValidMove(gridX, gridY, x, y, p.type, p.team)
-                        p.x = x;
-                        p.y = y;
+                        const validMove = refree.isValidMove(gridX, gridY, x, y, p.type, p.team);
+                        if(validMove){
+                            p.x = x;
+                            p.y = y;
+                        }else{
+                            activePiece.style.position = 'relative'
+                            activePiece.style.removeProperty('top')
+                            activePiece.style.removeProperty('left')
+                        }
+
                     }
                     return p;
                 })
@@ -173,4 +180,4 @@ export function Chessboard() {
         </div>
     );
 }
-export { PieceType , TeamType };
+export { PieceType, TeamType };
