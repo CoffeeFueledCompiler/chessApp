@@ -137,7 +137,7 @@ export function Chessboard() {
             setPieces((value) => {
                 const pieces = value.map((p) => {
                     if (p.x === gridX && p.y === gridY) {
-                        const validMove = refree.isValidMove(gridX, gridY, x, y, p.type, p.team);
+                        const validMove = refree.isValidMove(gridX, gridY, x, y, p.type, p.team, value);
                         if(validMove){
                             p.x = x;
                             p.y = y;
@@ -180,4 +180,4 @@ export function Chessboard() {
         </div>
     );
 }
-export { PieceType, TeamType };
+export { PieceType, TeamType, initialBoardState };
