@@ -6,10 +6,10 @@ export default class Refree {
     tileIsOccupied(x, y, initialBoardState) {
         console.log("checking if tile is occupied..")
 
-        const piece = initialBoardState.find(p => p.x === x && p.y ===y)
-        if(piece){
+        const piece = initialBoardState.find(p => p.x === x && p.y === y)
+        if (piece) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -21,39 +21,19 @@ export default class Refree {
         // return true;
         console.log(type === PieceType.PAWN)
 
-        //unable to compare PieceType
-        if (type === PieceType.PAWN) {
-            if (team === TeamType.OUR) { //if the team is ours
-                if (py === 1) {
-                    if (px === x && y - py === 1) {
-                        if (!this.tileIsOccupied(x, y, initialBoardState)) {
-                            return true;
-                        }
-                    }else if(px === x && y - py === 2)
-                    {
-                        if(!this.isValidMove(x, y, initialBoardState) && !this.isValidMove(x, y-1, initialBoardState)){
-                            return true;
-                        }
-                    }
-                } else {
-                    if (px === x && y - py === 1) {
-                        if (!this.tileIsOccupied(x, y, initialBoardState)) {
-                            return true;
-                        }
-                    }
+        if (type == PieceType.PAWN) {
+            const specialRow = (team === TeamType.OUR) ? 1 : 6;
+            const pawnDirection = (team === TeamType.OUR) ? 1 : -1;
+
+            if(px === x && py === specialRow && y - py === 2*pawnDirection){
+                if(!this.tileIsOccupied(x, y, initialBoardState) && !this.tileIsOccupied(x, y-pawnDirection, initialBoardState)){
+                    return true
                 }
-            } else { //if it is black
-                if (py === 6) {
-                    if (px === x && (y - py === -1 || y - py === -2)) {
-                        return true;
-                    }
-                } else {
-                    if (px === x && y - py === -1) {
-                        return true;
-                    }
+            }else if(px === x && y-py === pawnDirection){
+                if(!this.tileIsOccupied(x, y, initialBoardState)){
+                    return true;
                 }
             }
         }
-        return false;
     }
 }

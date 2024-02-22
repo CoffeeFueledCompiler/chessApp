@@ -180,4 +180,5 @@ export function Chessboard() {
         </div>
     );
 }
+// eslint-disable-next-line react-refresh/only-export-components
 export { PieceType, TeamType, initialBoardState };
