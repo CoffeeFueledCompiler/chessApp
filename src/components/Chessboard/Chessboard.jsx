@@ -132,26 +132,36 @@ export function Chessboard() {
             const x = Math.floor((e.clientX - chessboard.offsetLeft) / 70)
             const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 560) / 70))
 
-            // console.log(x, y)
+            const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY);
+            const attackedPiece = pieces.find((p) => p.x === x && p.y === y)
 
-            setPieces((value) => {
-                const pieces = value.map((p) => {
-                    if (p.x === gridX && p.y === gridY) {
-                        const validMove = refree.isValidMove(gridX, gridY, x, y, p.type, p.team, value);
-                        if(validMove){
-                            p.x = x;
-                            p.y = y;
-                        }else{
-                            activePiece.style.position = 'relative'
-                            activePiece.style.removeProperty('top')
-                            activePiece.style.removeProperty('left')
+            // console.log(currentPiece.x, currentPiece.y)
+            // console.log(attackedPiece)
+
+
+            if (currentPiece) {
+                const validMove = refree.isValidMove(gridX, gridY, x, y, currentPiece.type, currentPiece.team, pieces)
+
+                if (validMove) {
+
+                    const updatePieces = pieces.reduce((results, piece) => {
+                        if (piece.x === currentPiece.x && piece.y === currentPiece.y) {
+                            piece.x = x;
+                            piece.y = y;
+                            results.push(piece)
+                        } else if (!(piece.x === x && piece.y === y)) {
+                            results.push(piece)
                         }
+                        return results;
+                    }, [])
+                    setPieces(updatePieces)
 
-                    }
-                    return p;
-                })
-                return pieces;
-            })
+                } else {
+                    activePiece.style.position = 'relative'
+                    activePiece.style.removeProperty('top')
+                    activePiece.style.removeProperty('left')
+                }
+            }
 
             setActivePiece(null)
         }
