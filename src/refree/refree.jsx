@@ -25,6 +25,20 @@ export default class Refree {
         return !!piece;
     }
 
+    isEnPassantMove(px, py, x, y, type, team, initialBoardState) {
+        const pawnDirection = team === TeamType.OUR ? 1 : -1
+
+        if (type === PieceType.PAWN) {
+            if ((x - px === -1 || x - px === 1) && y - py === pawnDirection) {
+                const piece = initialBoardState.find((p) => p.x === x && p.y === y + pawnDirection && piece.enPassant)
+                console.log(piece.enPassant)
+                console.log(piece)
+            }
+        }
+        return false
+
+    }
+
     // Function to validate a chess move
     isValidMove(px, py, x, y, type, team, initialBoardState) {
         // Log information for debugging (commented out for now)
