@@ -2,54 +2,22 @@ import { useRef, useState } from "react";
 import Tiles from "../Tiles/Tiles";
 import './Chessboard.scss'
 import Refree from "../../refree/refree";
+import { horizontalAxis, verticalAxis, initialBoardState, PieceType, TeamType } from "../constants";
 
 
 //Axis for the chessboard
-const horizontalAxis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
-const enPassant = false;
 //List to render in the chess-pieces
 // const pieces = []
-const initialBoardState = []
-const PieceType = {
-    PAWN: 0,
-    BISHOP: 1,
-    KNIGHT: 2,
-    ROOK: 3,
-    QUEEN: 4,
-    KING: 5,
-}
 
-const TeamType = {
-    OPPONENT: 0,
-    OUR: 1
-}
+
+
+
 // const chessboardRef = useRef(null);
 // let activePiece = null;
 
 //Rendering powerful pieces
-for (let p = 0; p < 2; p++) {
-    const teamType = (p === 0) ? TeamType.OPPONENT : TeamType.OUR
-    const type = (teamType === TeamType.OPPONENT) ? "b" : "w";
-    const y = (teamType === TeamType.OPPONENT) ? 7 : 0;
-    initialBoardState.push({ image: `src/assets/images/rook_${type}.png`, x: 0, y, type: PieceType.ROOK, team: TeamType, enPassant})
-    initialBoardState.push({ image: `src/assets/images/rook_${type}.png`, x: 7, y, type: PieceType.ROOK, team: TeamType, enPassant})
-    initialBoardState.push({ image: `src/assets/images/knight_${type}.png`, x: 1, y, type: PieceType.KNIGHT, team: TeamType, enPassant})
-    initialBoardState.push({ image: `src/assets/images/knight_${type}.png`, x: 6, y, type: PieceType.KNIGHT, team: TeamType, enPassant })
-    initialBoardState.push({ image: `src/assets/images/bishop_${type}.png`, x: 2, y, type: PieceType.BISHOP, team: TeamType, enPassant})
-    initialBoardState.push({ image: `src/assets/images/bishop_${type}.png`, x: 5, y, type: PieceType.BISHOP, team: TeamType, enPassant })
-    initialBoardState.push({ image: `src/assets/images/queen_${type}.png`, x: 3, y, type: PieceType.KING, team: TeamType, enPassant })
-    initialBoardState.push({ image: `src/assets/images/king_${type}.png`, x: 4, y, type: PieceType.KING, team: TeamType, enPassant })
-}
 
-//Rendering pawns
-for (let i = 0; i < 8; i++) {
-    initialBoardState.push({ image: "src/assets/images/pawn_b.png", x: i, y: 6, type: PieceType.PAWN, team: TeamType.OPPONENT, enPassant})
-}
-for (let i = 0; i < 8; i++) {
-    initialBoardState.push({ image: "src/assets/images/pawn_w.png", x: i, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant})
-}
 
 
 
@@ -57,6 +25,7 @@ for (let i = 0; i < 8; i++) {
 //Chessbaord application
 export function Chessboard() {
     // function to grab pieces
+    // const[enPassant, setEnPassant] = useState(true);
     const [activePiece, setActivePiece] = useState(null)
     const [gridX, setGridX] = useState(0);
     const [gridY, setGridY] = useState(0);
@@ -141,21 +110,44 @@ export function Chessboard() {
 
 
             if (currentPiece) {
+
                 const validMove = refree.isValidMove(gridX, gridY, x, y, currentPiece.type, currentPiece.team, pieces)
 
-                const enPassantMove = refree.isEnPassantMove(gridX, gridY, x, y, currentPiece.type, currentPiece.team, initialBoardState, pieces)
-                if (validMove) {
+                const isEnPassantMove = refree.isEnPassantMove(gridX, gridY, x, y, currentPiece.type, currentPiece.team, pieces)
+
+                if (isEnPassantMove) {
+                    const pawnDirection = currentPiece.team === TeamType.OUR ? 1 : -1;
 
                     const updatePieces = pieces.reduce((results, piece) => {
                         if (piece.x === gridX && piece.y === gridY) {
-                            if(Math.abs(gridY - y) === 2 && piece.type === PieceType.PAWN){
-                                piece.enPassant = true
+                            piece.enPassant = false
+                            piece.x = x
+                            piece.y = y
+                            results.push(piece)
+                        } else if (!(piece.x === x && piece.y === y - pawnDirection)) {
+                            if (piece.type === PieceType.PAWN) {
+                                piece.enPassant = false
+                            }
+                            results.push(piece)
+                        }
+                        return results
+                    }, [])
+                    setPieces(updatePieces)
+
+                } else if (validMove) {
+                    const updatePieces = pieces.reduce((results, piece) => {
+                        if (piece.x === gridX && piece.y === gridY) {
+                            if (Math.abs(gridY - y) === 2 && piece.type === PieceType.PAWN) {
+                                console.log("enpassant = true")
+                                piece.enPassant = true;
+                            } else {
+                                piece.enPassant = false;
                             }
                             piece.x = x;
                             piece.y = y;
                             results.push(piece)
                         } else if (!(piece.x === x && piece.y === y)) {
-                            if(piece.type === PieceType.PAWN){
+                            if (piece.type === PieceType.PAWN) {
                                 piece.enPassant = false;
                             }
                             results.push(piece)
