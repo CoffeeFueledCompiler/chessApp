@@ -1,6 +1,8 @@
+//Axis for the chessboard
 export const horizontalAxis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 export const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"]
 
+//List to render in the chess-pieces
 export const initialBoardState = []
 
 export const PieceType = {
@@ -17,6 +19,7 @@ export const TeamType = {
     OUR: 1
 }
 
+//Rendering powerful pieces
 for (let p = 0; p < 2; p++) {
     const teamType = (p === 0) ? TeamType.OPPONENT : TeamType.OUR
     const type = (teamType === TeamType.OPPONENT) ? "b" : "w";

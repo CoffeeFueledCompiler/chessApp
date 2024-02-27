@@ -4,24 +4,6 @@ import './Chessboard.scss'
 import Refree from "../../refree/refree";
 import { horizontalAxis, verticalAxis, initialBoardState, PieceType, TeamType } from "../constants";
 
-
-//Axis for the chessboard
-
-//List to render in the chess-pieces
-// const pieces = []
-
-
-
-
-// const chessboardRef = useRef(null);
-// let activePiece = null;
-
-//Rendering powerful pieces
-
-
-
-
-
 //Chessbaord application
 export function Chessboard() {
     // function to grab pieces
@@ -55,9 +37,6 @@ export function Chessboard() {
 
             setActivePiece(element);
         }
-
-
-
     }
 
     function movePiece(e) {
@@ -104,10 +83,6 @@ export function Chessboard() {
 
             const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY);
             const attackedPiece = pieces.find((p) => p.x === x && p.y === y)
-
-            // console.log(currentPiece.x, currentPiece.y)
-            // console.log(attackedPiece)
-
 
             if (currentPiece) {
 
@@ -190,5 +165,3 @@ export function Chessboard() {
         </div>
     );
 }
-// eslint-disable-next-line react-refresh/only-export-components
-export { PieceType, TeamType, initialBoardState };
