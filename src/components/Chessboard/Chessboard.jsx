@@ -82,7 +82,7 @@ export function Chessboard() {
             const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 560) / 70))
 
             const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY);
-            const attackedPiece = pieces.find((p) => p.x === x && p.y === y)
+            // const attackedPiece = pieces.find((p) => p.x === x && p.y === y)
 
             if (currentPiece) {
 
