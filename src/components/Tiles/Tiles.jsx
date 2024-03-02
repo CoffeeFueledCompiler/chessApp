@@ -1,5 +1,4 @@
 import './Tiles.scss'
-import React from 'react'
 
 
 export default function Tiles({ number, image }) {
