@@ -10,7 +10,7 @@ export default class Refree {
         // console.log("checking if tile is occupied..");
 
         // Find a piece at the given coordinates using Array.find
-        const piece = initialBoardState.find(p => p.x === x && p.y === y);
+        const piece = initialBoardState.find(p => p.position.x === x && p.position.y === y);
 
         // Return true if a piece is found, false otherwise
         return !!piece;  // Used !! for explicit boolean conversion
@@ -19,7 +19,7 @@ export default class Refree {
     // Function to check if a tile is occupied by an opponent
     tileIsOccupiedByOpponent(x, y, initialBoardState, team) {
         // Find a piece at the given coordinates that belongs to the opponent
-        const piece = initialBoardState.find((p) => p.x === x && p.y === y && p.team !== team);
+        const piece = initialBoardState.find((p) => p.position.x === x && p.position.y === y && p.team !== team);
 
         // Return true if an opponent's piece is found, false otherwise
         return !!piece;
@@ -33,7 +33,7 @@ export default class Refree {
         if (type === PieceType.PAWN) {
             if ((x - px === -1 || x - px === 1) && y - py === pawnDirection) {
                 const piece = initialBoardState.find(
-                    (p) => p.x === x && p.y === y - pawnDirection && p.enPassant
+                    (p) => p.position.x === x && p.position.y === y - pawnDirection && p.enPassant
                 );
                 if(piece){
                     return true;

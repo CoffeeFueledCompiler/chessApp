@@ -81,7 +81,7 @@ export function Chessboard() {
             const x = Math.floor((e.clientX - chessboard.offsetLeft) / 70)
             const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 560) / 70))
 
-            const currentPiece = pieces.find((p) => p.x === gridX && p.y === gridY);
+            const currentPiece = pieces.find((p) => p.position.x === gridX && p.position.y === gridY);
             // const attackedPiece = pieces.find((p) => p.x === x && p.y === y)
 
             if (currentPiece) {
@@ -94,12 +94,12 @@ export function Chessboard() {
                     const pawnDirection = currentPiece.team === TeamType.OUR ? 1 : -1;
 
                     const updatePieces = pieces.reduce((results, piece) => {
-                        if (piece.x === gridX && piece.y === gridY) {
+                        if (piece.position.x === gridX && piece.position.y === gridY) {
                             piece.enPassant = false
-                            piece.x = x
-                            piece.y = y
+                            piece.position.x = x
+                            piece.position.y = y
                             results.push(piece)
-                        } else if (!(piece.x === x && piece.y === y - pawnDirection)) {
+                        } else if (!(piece.position.x === x && piece.position.y === y - pawnDirection)) {
                             if (piece.type === PieceType.PAWN) {
                                 piece.enPassant = false
                             }
@@ -111,17 +111,17 @@ export function Chessboard() {
 
                 } else if (validMove) {
                     const updatePieces = pieces.reduce((results, piece) => {
-                        if (piece.x === gridX && piece.y === gridY) {
+                        if (piece.position.x === gridX && piece.position.y === gridY) {
                             if (Math.abs(gridY - y) === 2 && piece.type === PieceType.PAWN) {
                                 console.log("enpassant = true")
                                 piece.enPassant = true;
                             } else {
                                 piece.enPassant = false;
                             }
-                            piece.x = x;
-                            piece.y = y;
+                            piece.position.x = x;
+                            piece.position.y = y;
                             results.push(piece)
-                        } else if (!(piece.x === x && piece.y === y)) {
+                        } else if (!(piece.position.x === x && piece.position.y === y)) {
                             if (piece.type === PieceType.PAWN) {
                                 piece.enPassant = false;
                             }
@@ -150,7 +150,7 @@ export function Chessboard() {
             let image = "";
 
             pieces.forEach((p) => {
-                if (p.x === i && p.y === j) {
+                if (p.position.x === i && p.position.y === j) {
                     image = p.image
                 }
             })

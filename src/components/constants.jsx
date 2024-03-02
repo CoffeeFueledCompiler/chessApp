@@ -46,14 +46,14 @@ export const initialBoardState = [
     { image: `src/assets/images/knight_w.png`, position: { x: 6, y: 0 }, type: PieceType.KNIGHT, team: TeamType.OUR, enPassant: false },
     { image: `src/assets/images/rook_w.png`, position: { x: 7, y: 0 }, type: PieceType.ROOK, team: TeamType.OUR, enPassant: false },
 
-    { image: `src/assets/images/pawn_w.png`, x: 0, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
-    { image: `src/assets/images/pawn_w.png`, x: 1, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
-    { image: `src/assets/images/pawn_w.png`, x: 2, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
-    { image: `src/assets/images/pawn_w.png`, x: 3, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
-    { image: `src/assets/images/pawn_w.png`, x: 4, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
-    { image: `src/assets/images/pawn_w.png`, x: 5, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
-    { image: `src/assets/images/pawn_w.png`, x: 6, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
-    { image: `src/assets/images/pawn_w.png`, x: 7, y: 1, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 0, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 1, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 2, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 3, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 4, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 5, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 6, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
+    { image: `src/assets/images/pawn_w.png`, position: {x: 7, y: 1}, type: PieceType.PAWN, team: TeamType.OUR, enPassant: false },
 ]
 
 
