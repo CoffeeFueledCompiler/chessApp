@@ -25,8 +25,6 @@ export default class Refree {
     isEnPassantMove(px, py, x, y, type, team, initialBoardState) {
         const pawnDirection = team === TeamType.OUR ? 1 : -1
 
-        
-
         if (type === PieceType.PAWN) {
             if ((x - px === -1 || x - px === 1) && y - py === pawnDirection) {
                 const piece = initialBoardState.find(
@@ -39,7 +37,6 @@ export default class Refree {
         }
         return false;
     }
-
 
 // Function to validate a chess move
 isValidMove(px, py, x, y, type, team, initialBoardState) {
