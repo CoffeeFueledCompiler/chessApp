@@ -3,7 +3,6 @@ import { PieceType, TeamType } from '../components/constants';
 
 // Export the Refree class
 export default class Refree {
-
     // Function to check if a tile is occupied
     tileIsOccupied(x, y, initialBoardState) {
         // Find a piece at the given coordinates using Array.find

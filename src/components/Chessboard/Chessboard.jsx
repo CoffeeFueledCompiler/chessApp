@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Tiles from "../Tiles/Tiles";
 import './Chessboard.scss'
 import Refree from "../../refree/refree";
-import { HORIZONTAL_AXIS, VERTICAL_AXIS, initialBoardState, PieceType, TeamType, GRID_SIZE } from "../constants";
+import { HORIZONTAL_AXIS, VERTICAL_AXIS, initialBoardState, PieceType, TeamType, GRID_SIZE, samePosition } from "../constants";
 
 //Chessbaord application
 export function Chessboard() {
@@ -78,7 +78,7 @@ export function Chessboard() {
             const chessboard = chessboardRef.current
             const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE)
             const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 560) / GRID_SIZE))
-            const currentPiece = pieces.find((p) => p.position.x === grabbedPosition.x && p.position.y === grabbedPosition.y);
+            const currentPiece = pieces.find((p) => samePosition(p.position, grabbedPosition));
 
             if (currentPiece) {
                 const validMove = refree.isValidMove(grabbedPosition.x, grabbedPosition.y, x, y, currentPiece.type, currentPiece.team, pieces)
@@ -88,7 +88,7 @@ export function Chessboard() {
                     const pawnDirection = currentPiece.team === TeamType.OUR ? 1 : -1;
 
                     const updatePieces = pieces.reduce((results, piece) => {
-                        if (piece.position.x === grabbedPosition.x && piece.position.y === grabbedPosition.y) {
+                        if (samePosition(piece.position, grabPieces)) {
                             piece.enPassant = false
                             piece.position.x = x
                             piece.position.y = y
