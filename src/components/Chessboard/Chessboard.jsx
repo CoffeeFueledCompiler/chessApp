@@ -88,15 +88,18 @@ export function Chessboard() {
                     const pawnDirection = currentPiece.team === TeamType.OUR ? 1 : -1;
 
                     const updatePieces = pieces.reduce((results, piece) => {
-                        if (samePosition(piece.position, grabPieces)) {
+                        if (samePosition(piece.position, grabbedPosition)) {
                             piece.enPassant = false
                             piece.position.x = x
                             piece.position.y = y
+                            console.log(piece.position.x, piece.position.y, )
+                            console.log("First statement true")
                             results.push(piece)
-                        } else if (!(piece.position.x === x && piece.position.y === y - pawnDirection)) {
+                        } else if (!(samePosition(piece.position, {x, y:y - pawnDirection}))) {
                             if (piece.type === PieceType.PAWN) {
                                 piece.enPassant = false
                             }
+                            console.log("Second statement true")
                             results.push(piece)
                         }
                         return results
@@ -105,7 +108,7 @@ export function Chessboard() {
 
                 } else if (validMove) {
                     const updatePieces = pieces.reduce((results, piece) => {
-                        if (piece.position.x === grabbedPosition.x && piece.position.y === grabbedPosition.y) {
+                        if (samePosition(piece.position, grabbedPosition)) {
                             if (Math.abs(grabbedPosition.y - y) === 2 && piece.type === PieceType.PAWN) {
                                 console.log("enpassant = true")
                                 piece.enPassant = true;
@@ -115,7 +118,7 @@ export function Chessboard() {
                             piece.position.x = x;
                             piece.position.y = y;
                             results.push(piece)
-                        } else if (!(piece.position.x === x && piece.position.y === y)) {
+                        } else if (!(samePosition(piece.position, {x, y}))) {
                             if (piece.type === PieceType.PAWN) {
                                 piece.enPassant = false;
                             }
@@ -141,14 +144,19 @@ export function Chessboard() {
     for (let j = VERTICAL_AXIS.length - 1; j >= 0; j--) {
         for (let i = 0; i < HORIZONTAL_AXIS.length; i++) {
             const number = i + j + 2;
-            const piece = pieces.find((p) => p.position.x === i && p.position.y === j);
+            const piece = pieces.find((p) => samePosition(p.position, {x: i, y: j}));
             let image = piece ? piece.image : undefined;
             board.push(<Tiles key={`${i}${j}`} number={number} image={image} />)
         }
     }
 
     return (
-        <div className="Chessboard" onMouseMove={e => movePiece(e)} onMouseDown={e => grabPieces(e)} onMouseUp={e => dropPiece(e)} id="chessboard" ref={chessboardRef}>
+        <div className="Chessboard"
+          onMouseMove={e => movePiece(e)}
+          onMouseDown={e => grabPieces(e)} 
+          onMouseUp={e => dropPiece(e)} 
+          id="chessboard" 
+          ref={chessboardRef}>
             {board}
         </div>
     );

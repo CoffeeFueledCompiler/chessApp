@@ -29,7 +29,7 @@ export default class Refree {
                 const piece = initialBoardState.find(
                     (p) => p.position.x === x && p.position.y === y - pawnDirection && p.enPassant
                 );
-                if(piece){
+                if (piece) {
                     return true;
                 }
             }
@@ -37,46 +37,46 @@ export default class Refree {
         return false;
     }
 
-// Function to validate a chess move
-isValidMove(px, py, x, y, type, team, initialBoardState) {
-    // Implement movement logic for pawns
-    if (type === PieceType.PAWN) {
-        // Determine the special starting row and movement direction based on team
-        const specialRow = (team === TeamType.OUR) ? 1 : 6;
-        const pawnDirection = (team === TeamType.OUR) ? 1 : -1;
+    // Function to validate a chess move
+    isValidMove(px, py, x, y, type, team, initialBoardState) {
+        // Implement movement logic for pawns
+        if (type === PieceType.PAWN) {
+            // Determine the special starting row and movement direction based on team
+            const specialRow = (team === TeamType.OUR) ? 1 : 6;
+            const pawnDirection = (team === TeamType.OUR) ? 1 : -1;
 
-        // Handle two-step forward movement from the starting position
-        if (px === x && py === specialRow && y - py === 2 * pawnDirection) {
-            // Check if both tiles in the path are unoccupied
-            if (!this.tileIsOccupied(x, y, initialBoardState) && !this.tileIsOccupied(x, y - pawnDirection, initialBoardState)) {
-                return true;
+            // Handle two-step forward movement from the starting position
+            if (px === x && py === specialRow && y - py === 2 * pawnDirection) {
+                // Check if both tiles in the path are unoccupied
+                if (!this.tileIsOccupied(x, y, initialBoardState) && !this.tileIsOccupied(x, y - pawnDirection, initialBoardState)) {
+                    return true;
+                }
+            }
+            // Handle one-step forward movement
+            else if (px === x && y - py === pawnDirection) {
+                // Check if the target tile is unoccupied
+                if (!this.tileIsOccupied(x, y, initialBoardState)) {
+                    return true;
+                }
+            }
+            // Handle diagonal captures
+            else if (x - px === -1 && y - py === pawnDirection) {
+                console.log("Upper/bottom left corner");     // Log a message for debugging
+
+                // Check if the target tile is occupied by an opponent
+                if (this.tileIsOccupiedByOpponent(x, y, initialBoardState, team)) {
+                    return true;
+                }
+            } else if (x - px === 1 && y - py === pawnDirection) {
+                console.log("Upper/bottom right corner");    // Log a message for debugging
+
+                // Check if the target tile is occupied by an opponent
+                if (this.tileIsOccupiedByOpponent(x, y, initialBoardState, team)) {
+                    return true;
+                }
             }
         }
-        // Handle one-step forward movement
-        else if (px === x && y - py === pawnDirection) {
-            // Check if the target tile is unoccupied
-            if (!this.tileIsOccupied(x, y, initialBoardState)) {
-                return true;
-            }
-        }
-        // Handle diagonal captures
-        else if (x - px === -1 && y - py === pawnDirection) {
-            console.log("Upper/bottom left corner");     // Log a message for debugging
-
-            // Check if the target tile is occupied by an opponent
-            if (this.tileIsOccupiedByOpponent(x, y, initialBoardState, team)) {
-                return true;
-            }
-        } else if (x - px === 1 && y - py === pawnDirection) {
-            console.log("Upper/bottom right corner");    // Log a message for debugging
-
-            // Check if the target tile is occupied by an opponent
-            if (this.tileIsOccupiedByOpponent(x, y, initialBoardState, team)) {
-                return true;
-            }
-        }
+        // If no valid move conditions are met, return false
+        return false;
     }
-    // If no valid move conditions are met, return false
-    return false;
-}
 }
