@@ -77,6 +77,21 @@ export default class Refree {
             }
         }
         // If no valid move conditions are met, return false
+        else if(type === PieceType.KNIGHT){
+            // console.log("Knight")
+            if((x - px === 1 && y - py === 2) || (x - px === -1 && y - py === 2) ){
+                return true
+            }else if((x - px === 2 && y - py === 1) || (x - px === -2 && y - py === 1) ){
+                return true
+            }else if((x - px === 1 && y - py === -2) || (x - px === -1 && y - py === -2) ){
+                return true
+            }else if((x - px === 2 && y - py === -1) || (x - px === -2 && y - py === -1) ){
+                return true
+            }
+        }
+        else if(type === PieceType.ROOK){
+            console.log("rook")
+        }
         return false;
     }
 }
